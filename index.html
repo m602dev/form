@@ -1,0 +1,133 @@
+<html>
+<title>会員登録</title>
+<meta http-equiv="content-language" content="ja">
+<meta http-equiv="content-type" charset="UTF-8">
+<script src="func.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+	header{display:none!important;}
+	h2{text-align: center;}
+	body{margin: 20px; background: #eeeeee;}
+	input[type="text"] ,input[type="tel"],input[type="date"],select,option,button{vertical-align:top;color:#333;background:#fff;border:solid 1px #ccc;border-radius:0px;height:40px;line-height:40px;margin:0px;padding:0px 10px;font-size:15px;outline:none;font-family: inherit;appearance: none;-webkit-appearance: none;cursor:pointer}
+	.wrap{margin:0px auto;max-width:600px!important;}
+	.wrap {width:100%;max-width:900px;padding-top: 1px;}
+	#formL{display:block;width:100%;margin-top: 15px;}
+	#formL li{width:100%;padding:5px 5px;display:flex;gap:10px}
+	#Ladd,#Lup,#bc_sub_btn,#bt_sub_btn{display:none}
+	#title{height:20px;line-height:20px;text-align:left;font-size:20px;font-weight:bold;}
+	#formL .child_wrap{display:flex;width:100%;}
+	#formL .text{padding:22px 5px 5px 5px;position:relative;width:100%;}
+	#formL .text label{position:absolute;top:0px;left:5px;font-size:12px;}
+	#formL input{width:70%;}
+	#formL input.input_l{width:100%}
+	#formL input.input_s{width:40%}
+	#formL .text input{width:100%!important;}
+	#kubun select,#kubun option{width:100%;}
+	li.blank {border-bottom:solid 1px #ccc;height:1px;padding:0px;margin:10px 0px;}
+	#formL li.ulwrap{padding:0px;}
+	#formL li.ulwrap2{padding-top:15px;}
+	.swal2-radio {display: grid !important; text-align: left !important;}			
+	.swal2-styled {padding: 0em 2.1em;}     
+	.btn{text-align: center;} 
+</style>
+<body>
+	<h2 class="tit">会員登録</h2>	  
+	<form action="" method="post" name="form" id="formCheck" class="needs-validation">		
+		<section class="wrap">
+			<ul id="formL">
+				<li>
+					<div class="row w-100">
+						<div class="col-6">
+							<input class="input_l" type="text" id="shimei" maxlength="50" placeholder="氏名" onchange="save_temp(this.id)">
+						</div>					
+						<div class="col-6" id="hurikana_div">
+							<input class="form-control w-100" type="text" id="hurikana" pattern="^([ァ-ヴー\s]|[ｦ-ﾟ\s])+$" maxlength="50" placeholder="フリガナ（カタカナのみ）">
+							<div class="invalid-feedback">カタカナのみ有効です</div>  
+						</div>			
+					</div>		
+				</li>		
+				<li><input type="text" id="kaisha_nm" maxlength="100" placeholder="会社名" onchange="save_temp(this.id)"></li>
+				<li class="ulwrap2">
+					<span class="text">
+						<label>生年月日</label>
+						<input class="input_s" type="date" id="birthday" placeholder="生年月日" onchange="save_temp(this.id)">
+					</span>
+					<span class="text">
+						<label>性別</label>
+						<select id="seibetsu_kb" onchange="save_temp(this.id)">
+							<option value="0">未</option>
+							<option value="1">男性</option>
+							<option value="2">女性</option>						
+						</select>
+					</span>
+				</li>
+				<li class="blank"></li>
+				<li>
+					<div class="col-4" id="post_no_div">
+						<input class="form-control w-100" type="tel" id="post_no" pattern="^[0-9]*$" maxlength="7" placeholder="郵便番号(ハイフンなし)">
+						<div class="invalid-feedback">数字のみ有効です</div>  
+					</div>							
+					<!--<input class="input_s" type="tel" id="post_no" maxlength="8" pattern="^[0-9]*$" onchange="SetObj_onlyNUM(this.id); save_temp(this.id);" placeholder="郵便番号(ハイフンなし)">-->
+				</li>
+				<li><input class="input_l" type="text" id="address_1" maxlength="50" placeholder="住所1" onchange="save_temp(this.id)"></li>
+				<li><input class="input_l" type="text" id="address_2" maxlength="50" placeholder="住所2" onchange="save_temp(this.id)"></li>
+				<li class="blank"></li>
+				<li>
+					<div class="col-8" id="keitai_mail_div">
+						<input class="form-control w-100" type="email" id="keitai_mail" pattern="^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$" placeholder="e-mail1 (スペースを含まない英数文字)">
+						<div class="invalid-feedback">メールアドレスの形式が不正です</div>  
+					</div>						
+					<!--<input class="input_l" type="email" id="keitai_mail" maxlength="50" pattern="^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$" placeholder="e-mail1 (スペースを含まない英数文字)" onChange="chkpattern(this.id,'英数字のみ可・＠必須'); save_temp(this.id);">-->
+				</li>
+				<li>
+					<div class="col-6" id="tel_no_1_div">
+						<input class="form-control w-100" type="tel" id="tel_no_1" pattern="^[0-9]*$" maxlength="15" placeholder="電話番号１(スペースを含まない)">
+						<div class="invalid-feedback">数字のみ有効です</div>  
+					</div>						
+					<!--<input class="tel" type="tel" id="tel_no_1" maxlength="13" placeholder="電話番号１" onchange="Obj_Set('kensakuyo_tel_no_1', onlyNUM(this.value)); save_temp(this.id)">-->
+				</li>
+				<li>
+					<div class="col-6" id="tel_no_2_div">
+						<input class="form-control w-100" type="tel" id="tel_no_2" pattern="^[0-9]*$" maxlength="15" placeholder="電話番号２(スペースを含まない)">
+						<div class="invalid-feedback">数字のみ有効です</div>  
+					</div>						
+					<!--<input class="tel" type="tel" id="tel_no_2" maxlength="13" placeholder="電話番号２" onchange="Obj_Set('kensakuyo_tel_no_2', onlyNUM(this.value)); save_temp(this.id)">-->
+				</li>	
+				<li>
+					<div class="col-6" id="fax_no_div">
+						<input class="form-control w-100" type="tel" id="fax_no" pattern="^[0-9]*$" maxlength="15" placeholder="FAX番号(スペースを含まない)">
+						<div class="invalid-feedback">数字のみ有効です</div>  
+					</div>						
+					<!--<input class="tel" type="tel" id="fax_no" maxlength="13" placeholder="FAX番号" onchange="save_temp(this.id)">-->
+				</li>								
+				<li>
+					<input class="input_l" type="text" id="biko" maxlength="40" placeholder="備考" onchange="save_temp(this.id)">
+				</li>
+			</ul>
+		</section>
+		<div class="d-grid gap-2 col-2 mx-auto">
+			<button class="btn btn-secondary" type="button">登録</button>
+		</div>	
+	</form>
+</body>
+<script>
+	const ids = ["kaiin_kb","post_no","address_1","address_2","hurikana","shimei","kaisha_nm","seibetsu_kb","tel_no_1","tel_no_2","tel_no_3","kensakuyo_tel_no_1","kensakuyo_tel_no_2","kensakuyo_tel_no_3","tel_shoji_shubetsu_1","tel_shoji_shubetsu_2","tel_shoji_shubetsu_3","fax_no","birthday","keitai_mail","pc_mail","dm_hakko_jogai_kb","kyaku_dm_hakko_kb","shokaisha_cd","biko"];
+
+	$(window).on('load', function() {temp_byone("load",ids); setValidation_array(["hurikana","post_no","keitai_mail","tel_no_1","tel_no_2","fax_no"]);})
+
+	function reg(){
+		var error = "";
+		if(isEmpty($('#tel_no_1').prop("value"))){error += "・電話番号\n"; $("#tel_no_1").focus();}      
+		if(isEmpty($('#address_1').prop("value"))){error += "・住所1\n"; $("#address_1").focus();}
+		if(isEmpty($('#shimei').prop("value"))){error += "・氏名"; $("#shimei").focus();}
+		if(error != ""){Swal.fire({icon: 'error', title: '未入力の箇所があります', confirmButtonColor: '#2e3f50', text: error}); return;}	
+
+		$("#reg_btn").prop('disabled', true);	
+		Swal.fire({icon: 'info', title: '登録しています...', footer: '<div style="text-align: center;">画面が10秒経っても変わらない場合は<BR>再読み込みをして下さい!!</div>'});
+		Swal.showLoading();
+		console.log(Obj_json(ids));
+	}
+</script>
+</html>
