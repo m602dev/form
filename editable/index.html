@@ -1,0 +1,134 @@
+<title>editable</title>
+<html>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <body>
+    <div id="app">
+        <v-app>
+            <v-content class="container align-center px-1">
+                <h2 class="font-weight-light mb-2">
+                    editable by Vuetify
+                </h2>
+                <v-card>
+                    <v-data-table 
+                    :headers="headers" 
+                    :items="items" 
+                    mobile-breakpoint="800"
+                    class="elevation-0">
+                        <template v-slot:item.actions="{ item }">
+                            <div class="text-truncate">
+                              <v-icon
+                                small
+                                class="mr-2"
+                                @click="showEditDialog(item)"
+                                color="primary" 
+                              >
+                                mdi-pencil
+                              </v-icon>
+                              <v-icon
+                                small
+                                @click="deleteItem(item)"
+                                color="pink" 
+                              >
+                                mdi-delete
+                              </v-icon>
+                          </div>
+                        </template>
+                        <template v-slot:item.details="{ item }">
+                            <div class="text-truncate" style="width: 180px">
+                                {{item.Details}}
+                            </div>
+                        </template>
+                        <template v-slot:item.url="{ item }">
+                            <div class="text-truncate" style="width: 180px">
+                                <a :href="item.URL" target="_new">{{item.URL}}</a>
+                            </div>
+                        </template>
+                    </v-data-table>
+                    <!-- this dialog is used for both create and update -->
+                    <v-dialog v-model="dialog" max-width="500px">
+                      <template v-slot:activator="{ on }">
+                        <div class="d-flex">
+                            <v-btn color="primary" dark class="ml-auto ma-3" v-on="on">
+                                New 
+                                <v-icon small>mdi-plus-circle-outline</v-icon>
+                            </v-btn>
+                        </div>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                            <span v-if="editedItem.id">Edit {{editedItem.id}}</span>
+                            <span v-else>Create</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-row>
+                              <v-col cols="12" sm="4">
+                                <v-text-field v-model="editedItem.tais" label="tais"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="8">
+                                <v-text-field v-model="editedItem.tekiyo" label="tekiyo"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" sm="12">
+                                <v-text-field v-model="editedItem.kin" label="kin"></v-text-field>
+                              </v-col>
+                            </v-row>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="blue darken-1" text @click="showEditDialog()">Cancel</v-btn>
+                          <v-btn color="blue darken-1" text @click="saveItem(editedItem)">Save</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                </v-card>
+            </v-content>
+        </v-app>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+new Vue({
+  el: '#app',
+  vuetify: new Vuetify(),
+  data () {
+    return {
+        headers: [
+            {text: "対象", value: "tais", align: "left"},
+            {text: "摘要", value: "tekiyo", align: "left"},
+            {text: "金額", value: "kin", align: "right"},
+            {text: "日付", value: "paydtm", align: "left"},   
+            { text: 'Action', value: 'actions', sortable: false },
+        ],
+        items: [
+          {"tais":"店A","tekiyo":"テスト商品1","kin":"130","paydtm":"2023-04-29 09:12:00"},
+          {"tais":"店A","tekiyo":"テスト商品2","kin":"230","paydtm":"2023-04-29 09:12:00"},     
+          {"tais":"店A","tekiyo":"テスト商品3","kin":"430","paydtm":"2023-04-29 09:12:00"},   
+          {"tais":"店A","tekiyo":"テスト商品4","kin":"2340","paydtm":"2023-04-29 09:12:00"},   
+          {"tais":"店A","tekiyo":"テスト商品5","kin":"1130","paydtm":"2023-04-29 09:12:00"},              
+          {"tais":"店B","tekiyo":"テスト商品1","kin":"130","paydtm":"2023-04-29 09:12:00"},
+          {"tais":"店B","tekiyo":"テスト商品2","kin":"230","paydtm":"2023-04-29 09:12:00"},     
+          {"tais":"店B","tekiyo":"テスト商品3","kin":"430","paydtm":"2023-04-29 09:12:00"},                                    
+        ],
+        dialog: false,
+        editedItem: {}
+    }
+  },
+  methods: {
+    showEditDialog(item) {
+        this.editedItem = item||{}
+        this.dialog = !this.dialog
+    },
+    saveItem(item) {
+
+    },
+    deleteItem(item) {
+
+    },
+  }
+})
+  </script>  
+</html>
